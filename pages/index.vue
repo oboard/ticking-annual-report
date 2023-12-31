@@ -5,7 +5,7 @@
     <div class="relative">
       <!-- 背景图片，位于/1.png -->
       <div class="absolute top-0 left-0 right-0 bottom-0">
-        <img src="/1.gif" alt="背景图片" class="w-full h-full object-contain" />
+        <NuxtImg src="/1.gif" alt="背景图片" class="w-full h-full object-contain" />
       </div>
 
       <!-- 在中央显示用户名，用户名是{{ data.name }}，白色字，要有阴影 -->
@@ -22,7 +22,7 @@
     </div>
     <div class="relative">
       <div class="absolute top-0 left-0 right-0 bottom-0">
-        <img src="/2.gif" alt="背景图片" class="w-full h-full object-contain" />
+        <NuxtImg src="/2.gif" alt="背景图片" class="w-full h-full object-contain" />
       </div>
 
       <!-- 注册日期 -->
@@ -34,7 +34,7 @@
     </div>
     <div class="relative" v-if="data.latestFocusTime">
       <div class="absolute top-0 left-0 right-0 bottom-0">
-        <img src="/3.gif" alt="背景图片" class="w-full h-full object-contain" />
+        <NuxtImg src="/3.gif" alt="背景图片" class="w-full h-full object-contain" />
       </div>
 
       <!-- 睡得很晚日期 -->
@@ -51,7 +51,7 @@
     <div class="relative">
       <!-- 年度计时 -->
       <div class="absolute top-0 left-0 right-0 bottom-0">
-        <img src="/4.gif" alt="背景图片" class="w-full h-full object-contain" />
+        <NuxtImg src="/4.gif" alt="背景图片" class="w-full h-full object-contain" />
       </div>
       <div
         class="absolute flex flex-col justify-center items-center w-full h-full text-[2rem] text-black drop-shadow"
@@ -73,7 +73,7 @@
     </div>
     <div class="relative" v-if="data.todoItemTotalCount != 0">
       <div class="absolute top-0 left-0 right-0 bottom-0">
-        <img src="/5.gif" alt="背景图片" class="w-full h-full object-contain" />
+        <NuxtImg src="/5.gif" alt="背景图片" class="w-full h-full object-contain" />
       </div>
 
       <!-- 创建待办的数量 -->
@@ -87,7 +87,7 @@
     </div>
     <div class="relative">
       <div class="absolute top-0 left-0 right-0 bottom-0">
-        <img src="/6.gif" alt="背景图片" class="w-full h-full object-contain" />
+        <NuxtImg src="/6.gif" alt="背景图片" class="w-full h-full object-contain" />
       </div>
 
       <!-- 二维码 -->
