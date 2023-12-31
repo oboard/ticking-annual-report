@@ -7,6 +7,12 @@
 <style>
 </style>
 
-<script>
+<script setup lang="ts">
+const appConfig = useAppConfig()
 
+useHead({
+  titleTemplate: (titleChunk) => {
+    return titleChunk ? `${titleChunk} - ${appConfig.title}` : appConfig.title
+  }
+})
 </script>
