@@ -12,7 +12,11 @@
       <div
         class="absolute flex flex-col justify-center items-center gap-2 w-full h-full text-2xl font-bold text-white"
       >
-        <img :src="data?.avatarUrl" alt="头像" class="w-16 h-16 rounded-full" />
+        <NuxtImg
+          :src="data?.avatarUrl"
+          alt="头像"
+          class="w-16 h-16 rounded-full"
+        />
         <span class="drop-shadow">@{{ data?.name }}</span>
       </div>
     </div>
@@ -28,7 +32,7 @@
         <span class="drop-shadow">{{ registerTimeText }}</span>
       </div>
     </div>
-    <div class="relative">
+    <div class="relative" v-if="data.latestFocusTime">
       <div class="absolute top-0 left-0 right-0 bottom-0">
         <img src="/3.gif" alt="背景图片" class="w-full h-full object-contain" />
       </div>
@@ -41,7 +45,7 @@
         <p class="py-2 px-4 bg-red-500 rounded-full">
           {{ latestFocusTimeStartTimeText }}
         </p>
-        <p>还在进行 {{ data.latestFocusTime.name }}</p>
+        <p>还在进行 {{ data.latestFocusTime?.name }}</p>
       </div>
     </div>
     <div class="relative">
@@ -50,40 +54,24 @@
         <img src="/4.gif" alt="背景图片" class="w-full h-full object-contain" />
       </div>
       <div
-        class="absolute flex flex-col justify-center items-center w-full h-full text-[2rem] font-bold text-black drop-shadow"
+        class="absolute flex flex-col justify-center items-center w-full h-full text-[2rem] text-black drop-shadow"
       >
         <p>今年总共计时</p>
         <p class="py-2 px-4 bg-red-500 text-white rounded-full">
           {{ (data.focusTimeTotalTime / 60 / 60 / 1000).toFixed(0) }}小时
         </p>
 
-        <p v-if="data.focusTimeTotalTime > 13000000000">
-          相当于宇宙诞生至今的微小瞬间
-        </p>
-        <p v-else-if="data.focusTimeTotalTime > 10000000000">
-          相当于数千个世纪
-        </p>
-        <p v-else-if="data.focusTimeTotalTime > 5000000000">
-          相当于绕地球一千多圈
-        </p>
-        <p v-else-if="data.focusTimeTotalTime > 1000000000">
-          相当于超过一百万个工作日
-        </p>
-        <p v-else>也不是很多嘛～</p>
         <!-- 最多的计时名称 -->
-        <div v-if="data.mostFocusTimeCount">
+        <div v-if="data.mostFocusTimeCount" class="pt-8 flex items-center flex-col">
           <p>最多计时的是</p>
+          <p>{{ data.mostFocusTimeCount }}次的</p>
           <p class="py-2 px-4 bg-blue-500 text-center text-white rounded-full">
             {{ data.mostFocusTimeName }}
-          </p>
-          <p>共计</p>
-          <p class="py-2 px-4 bg-blue-500 text-center text-white rounded-full">
-            {{ data.mostFocusTimeCount }}次
           </p>
         </div>
       </div>
     </div>
-    <div class="relative">
+    <div class="relative" v-if="data.todoItemTotalCount != 0">
       <div class="absolute top-0 left-0 right-0 bottom-0">
         <img src="/5.gif" alt="背景图片" class="w-full h-full object-contain" />
       </div>
@@ -124,16 +112,52 @@
 
 <script lang="ts" setup>
 import QRCode from "qrcode";
+// 先获取query参数
+const query = useRoute().query;
+
+const res: any = await useFetch(
+  "http://todo.i99yun.com/v2/report/annual?userId=" + query.userId
+);
+
+const data = res.data.value.data as UserData;
+// yyyy年mm月d日
+const registerTimeText = new Date(data.registerTime).toLocaleDateString(
+  "zh-CN",
+  {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }
+);
+
+// 转换为年月日日期
+const latestFocusTimeDayNumText = new Date(
+  data.latestFocusTime?.startTime
+).toLocaleDateString("zh-CN", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+// 时间
+const latestFocusTimeStartTimeText = new Date(
+  data.latestFocusTime?.startTime
+).toLocaleTimeString("zh-CN", {
+  hour12: false,
+  // hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+});
 
 onMounted(async () => {
   let canvas = document.getElementById("canvas");
   QRCode.toCanvas(
     canvas,
-    "http://localhost:8080/home",
+    "https://2023.oboard.eu.org/?userId=" + query.userId,
     { width: 200 },
     function (error: any) {
       if (error) console.error(error);
-      console.log("success!");
+      // console.log("success!");
     }
   );
 });
@@ -186,46 +210,4 @@ type UserData = {
   mostFocusTimeCount: number;
 };
 // 从http://localhost/v2/report/annual?userId=3获取数据
-
-// 先获取query参数
-const query = useRoute().query;
-const userId = query.userId;
-console.log("http://todo.i99yun.com/v2/report/annual?userId=" + userId);
-
-const res: any = await useFetch(
-  "http://todo.i99yun.com/v2/report/annual?userId=" + query.userId
-);
-
-const data = res.data.value.data as UserData;
-// yyyy年mm月d日
-const registerTimeText = new Date(data.registerTime).toLocaleDateString(
-  "zh-CN",
-  {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }
-);
-
-// 转换为年月日日期
-const latestFocusTimeDayNumText = new Date(
-  data.latestFocusTime.startTime
-).toLocaleDateString("zh-CN", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
-
-// 时间
-const latestFocusTimeStartTimeText = new Date(
-  data.latestFocusTime.startTime
-).toLocaleTimeString("zh-CN", {
-  hour12: false,
-  // hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-});
-
-
-
 </script>

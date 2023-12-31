@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@nuxt/image": "^1.1.0",
     "@nuxtjs/tailwindcss": "^6",
     "@types/qrcode": "^1.5.5",
     "daisyui": "^3",
