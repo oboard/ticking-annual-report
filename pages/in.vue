@@ -11,7 +11,7 @@
         </nuxt-link>
       </div>
       <br/>
-      <p class="text-justify">不知道在哪里获取Ticking ID？请在Ticking点击“我”，顶部昵称下方就是Ticking ID</p>
+      <p class="text-justify px-8">不知道在哪里获取Ticking ID？请在Ticking点击“我”，顶部昵称下方就是Ticking ID</p>
     </div>
   </template>
   

@@ -19,6 +19,7 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.1.1",
     "qrcode": "^1.5.3"
   }
 }
